@@ -1,0 +1,67 @@
+{
+	"pages": [
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "首页"
+				}
+		},
+		{
+			"path":"pages/category/Category",
+			"style":{
+				"navigationBarTitleText": "分类"
+			}
+		},
+		{
+			"path":"pages/cart/Cart",
+			"style":{
+				"navigationBarTitleText": "购物车"
+			}
+		},
+		{
+			"path":"pages/profile/Profile",
+			"style":{
+				"navigationBarTitleText": "个人中心"
+			}
+		},
+		{
+			"path":"pages/detail/Detail",
+			"style":{
+				"navigationBarTitleText": "详情"
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#ff699c",
+		"backgroundColor": "#FFFFFF"
+	},
+	"tabBar":{
+		"selectedColor":"#f40",
+		"list":[
+			{
+				"text":"首页",
+				"pagePath":"pages/index/index",
+				"iconPath":"static/img/tabbar/shouye.png",
+				"selectedIconPath":"static/img/tabbar/shouye1.png"
+			},
+			{
+				"text":"分类",
+				"pagePath":"pages/category/Category",
+				"iconPath":"static/img/tabbar/分类.png",
+				"selectedIconPath":"static/img/tabbar/分类1.png"
+			},{
+				"text":"购物车",
+				"pagePath":"pages/cart/Cart",
+				"iconPath":"static/img/tabbar/购物车空.png",
+				"selectedIconPath":"static/img/tabbar/购物车满.png"
+			},{
+				"text":"个人中心",
+				"pagePath":"pages/profile/Profile",
+				"iconPath":"static/img/tabbar/我的.png",
+				"selectedIconPath":"static/img/tabbar/我的1.png"
+			}
+		]
+	}
+}

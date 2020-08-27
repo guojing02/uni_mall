@@ -1,0 +1,49 @@
+{
+  "pages": [
+    "pages/navigator/Navigator",
+    "pages/message/Message",
+    "pages/index/index",
+    "pages/cart/Cart",
+    "pages/nui-style/uni-style",
+    "pages/detail/Detail"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#76d7c4",
+    "backgroundColor": "#6CF7E7",
+    "enablePullDownRefresh": true,
+    "onReachBottomDistance": 200
+  },
+  "tabBar": {
+    "selectedColor": "#f40",
+    "list": [
+      {
+        "text": "首页",
+        "pagePath": "pages/index/index",
+        "iconPath": "static/tabbar/shouye.png",
+        "selectedIconPath": "static/tabbar/shouye1.png"
+      },
+      {
+        "text": "分类",
+        "pagePath": "pages/message/Message",
+        "iconPath": "static/tabbar/fenlei.png",
+        "selectedIconPath": "static/tabbar/fenlei1.png"
+      },
+      {
+        "text": "购物车",
+        "pagePath": "pages/cart/Cart",
+        "iconPath": "static/tabbar/购物车空.png",
+        "selectedIconPath": "static/tabbar/购物车满.png"
+      },
+      {
+        "text": "样式",
+        "pagePath": "pages/nui-style/uni-style",
+        "iconPath": "static/tabbar/购物车空.png",
+        "selectedIconPath": "static/tabbar/购物车满.png"
+      }
+    ]
+  },
+  "usingComponents": {}
+}

@@ -1,0 +1,18 @@
+
+.box.data-v-1a274378{
+	height: 100px;
+	width: 100px;
+	background-color: #007AFF;
+}
+.box2.data-v-1a274378{
+	height: 300px;
+	width: 300px;
+	background-color: #4CD964;
+}
+.activebox.data-v-1a274378{
+	background-color: red;
+}
+.activeBox2.data-v-1a274378{
+	background-color: pink;
+}
+
