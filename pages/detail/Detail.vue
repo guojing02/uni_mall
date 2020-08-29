@@ -48,7 +48,10 @@ export default {
 			recommendList:{
 				new:{
 					page:3,
-					list:[]
+					list:{
+						left:[],
+						right:[]
+					}
 				}
 			},
 			themeTops:[],
@@ -104,8 +107,19 @@ export default {
 					page
 				}
 			})
-			// console.log(res)
-			this.recommendList.new.list.push(...res.data.list)
+			console.log(res)
+			let list = res.data.list
+			let left = []
+			let right = []
+			list.forEach((item,index) => {
+			    if(index %2 !==0){
+			        left.push(item)
+			    }else{
+			        right.push(item)
+				}
+			})
+			this.recommendList.new.list.left.push(...left)
+			this.recommendList.new.list.right.push(...right)
 		},
 		
 		
@@ -189,6 +203,7 @@ export default {
   },
 	computed:{
 		showGoods(){
+			console.log(this.recommendList.new.list)
 			return this.recommendList.new.list
 		}
 	}

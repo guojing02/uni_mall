@@ -10,7 +10,7 @@
 			<view class="titleNview-placing"></view>
 			<!-- 背景色区域 -->
 			<view class="titleNview-background" :style="{backgroundColor:bgColor}"></view>
-			<swiper class="carousel" circular @change="swiperChange">
+			<swiper class="carousel" circular @change="swiperChange" autoplay>
 				<swiper-item v-for="(item, index) in banners" :key="index" class="carousel-item" @click="navToDetailPage({title: '轮播广告'})">
 					<image :src="item.image||item" class="image"/>
 				</swiper-item>
@@ -35,18 +35,6 @@
 				}
 			}
 		},
-		data() {
-			return {
-				swiperCurrent: 0,
-				swiperLength: 0,
-			}
-		},
-		methods: {
-			swiperChange(e) {
-				console.log(e.detail.current)
-				this.swiperCurrent = e.detail.current;
-			},
-		},
 		computed: {
 			bgColor() {
 				switch (this.swiperCurrent) {
@@ -59,8 +47,28 @@
 					case 3:
 						return 'rgba(187,96,253,.6)';
 				}
+			},
+			swiperLength(){
+				return this.banners.length
 			}
-		}
+		},
+		onShow() {
+			//this.swiperLength = this.banners.length
+		},
+		data() {
+			return {
+				swiperCurrent: 0,
+				// swiperLength: 0,
+			}
+		},
+		methods: {
+			swiperChange(e) {
+				this.swiperCurrent = e.detail.current;
+			},
+			length(){
+			}
+		},
+		
 	}
 </script>
 

@@ -12,7 +12,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 /* 解决头条小程序组件内引入字体不生效的问题 */
 /* #ifdef MP-TOUTIAO */
 @font-face {
@@ -21,6 +21,7 @@ export default {
 }
 /* #endif */
 @import "./static/css/base.css";
+@import "./uview-ui/index.scss";
 page{
 	height: 100%;
 }

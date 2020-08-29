@@ -1,4 +1,8 @@
 {
+    "easycom": {
+        "^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+    },
+    // 此为本身已有的内容
 	"pages": [
 		{
 			"path": "pages/index/index",
@@ -62,6 +66,10 @@
 				"navigationBarTitleText": "详情"
 			}
 		}
+        ,{
+            "path" : "pages/payment/payment",
+            "style" : {}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",

@@ -3,7 +3,6 @@
       <view class="titles">
         <view v-for="(item,index) in titles" 
         :key="index" class="title-item"
-        
         @click="itemClick(index)"
         >{{item}}
 				<view :class="{active:index === currentIndex}"></view>

@@ -1,15 +1,15 @@
 <template>
 	<view class="home">
 		<my-swiper class="swiper" :banners='banners'></my-swiper>
-		<recommend-view :recommends="recommend"></recommend-view>
+		<recommend-view :recommends="recommend" class="bgc"></recommend-view>
 		<view class="feature">
 			<a href="https://act.mogujie.com/zzlx67">
 				<img :src='SRC' alt="123">
 			</a>
 		</view>
 		<view>
-			<tab-control class="tab-control" v-if="activeTab" :titles="title" @tabClick='tabClick' ref='tab'></tab-control>
-			<tab-control class="tab-control-fixed" v-else :titles="title" @tabClick='tabClick'></tab-control>
+			<tab-control class="tab-control bgc" v-if="activeTab" :titles="title" @tabClick='tabClick' ref='tab'></tab-control>
+			<tab-control class="tab-control-fixed"  v-else :titles="title" @tabClick='tabClick'></tab-control>
 			<view :class="{'view_height':!activeTab}"></view>
 		</view>
 		<goods-list :goods="showGoods"></goods-list>
@@ -23,27 +23,38 @@
 	import RecommendView from './children/RecommendView.vue'
 	import tabControl from './children/tabControl.vue'
 	export default {
-		onLoad() {
+		onShow() {
+			this.getSwiper()
 			this.getHomeGoods('pop',1)
 			this.getHomeGoods('new',1)
 			this.getHomeGoods('sell',1)
+			// console.log(this.getHomeGoods('new',1))
 		},
 		data() {
 			return {
-				banners: null,
+				banners: [],
 				recommend: null,
 				goods: {
 					'pop': {
 						page: 1,
-						list: []
+						list: {
+							left:[],
+							right:[]
+						}
 					},
 					'new': {
 						page: 1,
-						list: []
+						list:  {
+							left:[],
+							right:[]
+						}
 					},
 					'sell': {
 						page: 1,
-						list: []
+						list: {
+							left:[],
+							right:[]
+						}
 					},
 				},
 				title: [],
@@ -51,8 +62,7 @@
 				activeTab: true,
 			}
 		},
-		mounted() {
-			this.getSwiper()
+		onReady() {
 			this.getHomeGoods(this.currentType, this.goods[this.currentType].page)
 		},
 		methods: {
@@ -76,7 +86,18 @@
 						page
 					}
 				})
-				this.goods[type].list.push(...res.data.list)
+				let list = res.data.list
+				let left = []
+				let right = []
+				list.forEach((item,index) => {
+				    if(index %2 !==0){
+				        left.push(item)
+				    }else{
+				        right.push(item)
+					}
+				})
+				this.goods[this.currentType].list.left.push(...left)
+				this.goods[this.currentType].list.right.push(...right)
 				this.title = [res.data.filter.list[0].title, res.data.filter.list[1].title, res.data.filter.list[2].title]
 			},
 
@@ -102,16 +123,17 @@
 				}
 
 			},
+			
 			onPageScroll(res) {
 				let tabControl = res.scrollTop
-				console.log(tabControl)
+				// console.log(tabControl)
 				// #ifdef H5
-				if (tabControl >= 626) {
+				if (tabControl >= 623) {
 					this.activeTab = false
 				}
 				// #endif 
 				// #ifdef MP
-				if (tabControl >= 589) {
+				if (tabControl >= 586) {
 					this.activeTab = false
 				}
 				// #endif 
@@ -122,10 +144,8 @@
 
 		},
 		onReachBottom() {
-			// console.log('1')
 			this.goods[this.currentType].page++
 			this.getHomeGoods(this.currentType, this.goods[this.currentType].page)
-			// console.log(this.goods[this.currentType].page)
 		},
 
 		components: {
@@ -136,6 +156,7 @@
 		},
 		computed: {
 			showGoods() {
+				console.log(this.goods[this.currentType].list)
 				return this.goods[this.currentType].list
 			},
 			SRC() {
@@ -151,7 +172,7 @@
 	}
 
 	.feature a img {
-		width: 100%;
+		width: 101%;
 	}
 
 	.swiper {
@@ -187,5 +208,10 @@
 	.view_height {
 		height: 80rpx;
 		width: 375rpx;
+	}
+	.bgc{
+		background-color: #fff;
+		position: relative;
+		top: -3px;
 	}
 </style>
