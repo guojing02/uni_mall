@@ -27,14 +27,14 @@
       return{
         counter:0,
         imageLength:0,
-				load:false
+		load:false
       }
     },
     methods:{
       imageLoad(){
 				if(!this.load){
 					setTimeout(()=>{
-						this.$emit('imageLoad')
+						this.$emit('imageLoad',this.load)
 					},1000)
 				 this.load = true
 				 }

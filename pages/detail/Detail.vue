@@ -1,7 +1,13 @@
 <template>
   <view id="detail">
     <detail-nav-bar :class="[active?'detail-nav':'false-nav']" @itemClick='itemClick' ref="nav"/>
-		<my-swiper :banners='topImages' class="imgHeight"></my-swiper>
+		<view>
+			<swiper :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000" class="imgHeight">
+				<swiper-item  v-for="(item,index) in topImages" :key='index' >
+					<image :src="item" class="image"></image>
+				</swiper-item>
+			</swiper>
+		</view>
 		<detail-base-info :goods='goods'></detail-base-info>
 		<detail-shop-info :shop='shop'></detail-shop-info>
 		<detail-goods-info :detail-info='detailInfo' @imageLoad='imageLoad'/>
@@ -21,7 +27,6 @@ import DetailParamInfo from './chidComps/DetailParamInfo'
 import DetailCommentInfo from './chidComps/DetailCommentInfo'
 import DetailBottomBar from './chidComps/DetailBottomBar'
 
-import MySwiper from '../../components/swiper/MySwiper.vue'
 import GoodsList from '../../components/goods/GoodsList.vue'
 
 import {Goods,Shop,GoodsParam} from '../../common/detail.js'
@@ -110,29 +115,31 @@ export default {
 　　　　　　scrollTop:this.themeTops[i]  ,//到达距离顶部的top值
 　　　　})
 		},
-		imageLoad(){
+		imageLoad(load){
 			 // #ifdef H5
-			this.themeTops = [0,
-					 this.$refs.param.$el.offsetTop,
-					 this.$refs.comment.$el.offsetTop,
-					 this.$refs.recomment.$el.offsetTop,
-					 Number.MAX_VALUE]
+			 if(load){
+				this.themeTops = [0,
+						 this.$refs.param.$el.offsetTop,
+						 this.$refs.comment.$el.offsetTop,
+						 this.$refs.recomment.$el.offsetTop,
+						 Number.MAX_VALUE] 
+			 }
 			// #endif
 			//#ifdef MP
-			this.themeTops[0] = 0
-			uni.createSelectorQuery().select('.param').boundingClientRect((rect)=>{
-				this.themeTops[1] = rect.top
-			}).exec()
-			uni.createSelectorQuery().select('.comment').boundingClientRect((rect)=>{
-			 	this.themeTops[2] = rect.top
-			 }).exec() 
-			uni.createSelectorQuery().select('.recomment').boundingClientRect((rect)=>{
-			 	this.themeTops[3] = rect.top
-			 }).exec() 
-			this.themeTops[4] = Number.MAX_VALUE
-			
+			if (load) {
+				this.themeTops[0] = 0
+				uni.createSelectorQuery().select('.param').boundingClientRect((rect)=>{
+					this.themeTops[1] = rect.top
+				}).exec()
+				uni.createSelectorQuery().select('.comment').boundingClientRect((rect)=>{
+				 	this.themeTops[2] = rect.top
+				 }).exec() 
+				uni.createSelectorQuery().select('.recomment').boundingClientRect((rect)=>{
+				 	this.themeTops[3] = rect.top
+				 }).exec() 
+				this.themeTops[4] = Number.MAX_VALUE
+			}
 			// #endif
-			console.log(this.themeTops)
 		},
 		addCar(){
 			const cart = {}
@@ -147,7 +154,6 @@ export default {
 					title:res
 				})
 			})
-			console.log(this.addCart(cart))
 		},
 		onPageScroll(res) {
 			// console.log(res.scrollTop)
@@ -173,7 +179,6 @@ export default {
 	},
   components:{
     DetailNavBar,
-		MySwiper,
 		DetailBaseInfo,
 		DetailShopInfo,
 		DetailGoodsInfo,
@@ -199,7 +204,11 @@ export default {
     height: 50%;
   }
 	.imgHeight{
-		height: 600rpx;
+		height: 600upx ;
+	}
+	.image{
+		width: 800upx;
+		height: 800upx;
 	}
   .detail-nav{
     background-color: #fff;

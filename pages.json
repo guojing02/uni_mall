@@ -3,8 +3,40 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "首页"
+				// #ifdef MP
+				"navigationBarTitleText": "淘乐购",
+				//"navigationStyle": "custom",
+				// #endif 
+				"app-plus": {
+					"titleNView": {
+						"type": "transparent",
+						"searchInput": {
+							"backgroundColor": "rgba(231, 231, 231,.7)",
+							"borderRadius": "16px",
+							"placeholder": "新秋百搭小裙子",
+							"disabled": false,
+							"placeholderColor": "#606266"
+						},
+						"buttons": [{
+								"fontSrc": "/static/yticon.ttf",
+								"text": "\ue60d",
+								"fontSize": "26",
+								"color": "#303133",
+								"float": "left",
+								"background": "rgba(0,0,0,0)"
+							},
+							{
+								"fontSrc": "/static/yticon.ttf",
+								"text": "\ue744",
+								"fontSize": "27",
+								"color": "#303133",
+								"background": "rgba(0,0,0,0)",
+								"redDot": true
+							}
+						]
+					}
 				}
+			}
 		},
 		{
 			"path":"pages/category/Category",
@@ -30,7 +62,7 @@
 				"navigationBarTitleText": "详情"
 			}
 		}
-	],
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "uni-app",
@@ -38,25 +70,27 @@
 		"backgroundColor": "#FFFFFF"
 	},
 	"tabBar":{
-		"selectedColor":"#f40",
+		"selectedColor":"#ff699c",
 		"list":[
 			{
 				"text":"首页",
 				"pagePath":"pages/index/index",
 				"iconPath":"static/img/tabbar/shouye.png",
-				"selectedIconPath":"static/img/tabbar/shouye1.png"
+				"selectedIconPath":"static/img/tabbar/首页1.png"
 			},
 			{
 				"text":"分类",
 				"pagePath":"pages/category/Category",
 				"iconPath":"static/img/tabbar/分类.png",
 				"selectedIconPath":"static/img/tabbar/分类1.png"
-			},{
+			},
+			{
 				"text":"购物车",
 				"pagePath":"pages/cart/Cart",
 				"iconPath":"static/img/tabbar/购物车空.png",
 				"selectedIconPath":"static/img/tabbar/购物车满.png"
-			},{
+			},
+			{
 				"text":"个人中心",
 				"pagePath":"pages/profile/Profile",
 				"iconPath":"static/img/tabbar/我的.png",

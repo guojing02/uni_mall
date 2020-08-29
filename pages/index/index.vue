@@ -8,11 +8,12 @@
 			</a>
 		</view>
 		<view>
-		<tab-control class="tab-control" :titles="title" @tabClick='tabClick'></tab-control>
-		<!-- <view :class="{'view_height':!activeTab}"></view> -->
+			<tab-control class="tab-control" v-if="activeTab" :titles="title" @tabClick='tabClick' ref='tab'></tab-control>
+			<tab-control class="tab-control-fixed" v-else :titles="title" @tabClick='tabClick'></tab-control>
+			<view :class="{'view_height':!activeTab}"></view>
 		</view>
 		<goods-list :goods="showGoods"></goods-list>
-		</view>
+	</view>
 </template>
 
 <script>
@@ -22,6 +23,11 @@
 	import RecommendView from './children/RecommendView.vue'
 	import tabControl from './children/tabControl.vue'
 	export default {
+		onLoad() {
+			this.getHomeGoods('pop',1)
+			this.getHomeGoods('new',1)
+			this.getHomeGoods('sell',1)
+		},
 		data() {
 			return {
 				banners: null,
@@ -42,7 +48,7 @@
 				},
 				title: [],
 				currentType: 'pop',
-				activeTab:true,
+				activeTab: true,
 			}
 		},
 		mounted() {
@@ -57,7 +63,6 @@
 				} = await this.$http({
 					url: '/home/multidata'
 				})
-				// console.log(res)
 				this.banners = res.data.banner.list
 				this.recommend = res.data.recommend.list
 			},
@@ -71,14 +76,19 @@
 						page
 					}
 				})
-				// console.log(res)
 				this.goods[type].list.push(...res.data.list)
 				this.title = [res.data.filter.list[0].title, res.data.filter.list[1].title, res.data.filter.list[2].title]
 			},
-			
+
 			// 方法
 			tabClick(index) {
+				let top
 				this.currentIndex = index
+				uni.pageScrollTo({
+					duration: 100, //过渡时间
+					scrollTop: 626, //到达距离顶部的top值
+				})
+				console.log(top)
 				switch (index) {
 					case 0:
 						this.currentType = 'pop'
@@ -90,33 +100,34 @@
 						this.currentType = 'sell'
 						return
 				}
+
 			},
 			onPageScroll(res) {
 				let tabControl = res.scrollTop
-				// console.log(tabControl)
+				console.log(tabControl)
 				// #ifdef H5
-				if(tabControl >= 665){
+				if (tabControl >= 626) {
 					this.activeTab = false
-					}
+				}
 				// #endif 
 				// #ifdef MP
-				if(tabControl >= 621){
+				if (tabControl >= 589) {
 					this.activeTab = false
-					}
+				}
 				// #endif 
-					else{
+				else {
 					this.activeTab = true
 				}
 			}
-			
+
 		},
-		onReachBottom(){
+		onReachBottom() {
 			// console.log('1')
 			this.goods[this.currentType].page++
 			this.getHomeGoods(this.currentType, this.goods[this.currentType].page)
 			// console.log(this.goods[this.currentType].page)
 		},
-		
+
 		components: {
 			MySwiper,
 			RecommendView,
@@ -127,7 +138,7 @@
 			showGoods() {
 				return this.goods[this.currentType].list
 			},
-			SRC(){
+			SRC() {
 				return '../../static/img/home/recommend_bg.png'
 			}
 		}
@@ -135,27 +146,31 @@
 </script>
 
 <style scoped lang="scss">
-	page{
+	page {
 		height: 100%;
 	}
+
 	.feature a img {
 		width: 100%;
 	}
-	.swiper{
+
+	.swiper {
 		height: 100%;
 	}
-	.home{
-		height: 40%;
+
+	.home {
+		height: 38%;
 		position: relative;
 	}
-	.tab-control {
-		position: static;
-		top: 42upx;
-		z-index: 100;
-		background-color: #fff;
-		color: #000;
-	}
-	.tab-control-fixed{
+
+	// .tab-control {
+	// 	position: sticky;
+	// 	top: 42upx;
+	// 	z-index: 100;
+	// 	background-color: #fff;
+	// 	color: #000;
+	// }
+	.tab-control-fixed {
 		position: fixed;
 		/*#ifdef H5 */
 		top: 44px;
@@ -168,7 +183,8 @@
 		color: #000;
 		width: 100%;
 	}
-	.view_height{
+
+	.view_height {
 		height: 80rpx;
 		width: 375rpx;
 	}

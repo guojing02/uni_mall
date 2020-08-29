@@ -72,6 +72,7 @@ export default {
     line-height: 58px;
   }
   .bar-right .cart {
+	font-weight: bold;
     background-color: #ffe817;
     color: #333;
   }

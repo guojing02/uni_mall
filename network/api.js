@@ -1,4 +1,4 @@
-const BASE_URL = 'http://152.136.185.210:8000/api/n3'
+const BASE_URL = 'http://152.136.185.210:8000/api/z8'
 export const myRequest =(options)=>{
 	return new Promise((resolve,reject)=>{
 		uni.request({

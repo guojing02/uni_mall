@@ -2,6 +2,7 @@
   <div class="goods">
     <goods-item v-for='(item,index) in goods' :key='index'
     :goodsitem='item'></goods-item>
+	
     <!-- {{goods}} -->
   </div>
 </template>
