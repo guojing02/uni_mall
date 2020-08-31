@@ -34,6 +34,7 @@ export default {
 <style scoped lang="scss">
   .titles{
     display: flex;
+	margin-top: 15upx;
 		.title-item{
 		  margin: auto;
 			color: #fff;

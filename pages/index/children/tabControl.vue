@@ -24,13 +24,13 @@ export default {
   },
   data(){
     return{
-      currentIndex:'0'
+      currentIndex:0
     }
   },
   methods:{
     itemClick(index){
       this.currentIndex = index;
-      this.$emit('tabClick',index)
+      this.$emit('tab-click',index)
     }
   }
 }

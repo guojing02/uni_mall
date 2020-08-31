@@ -8,11 +8,11 @@
 			</a>
 		</view>
 		<view>
-			<tab-control class="tab-control bgc" v-if="activeTab" :titles="title" @tabClick='tabClick' ref='tab'></tab-control>
-			<tab-control class="tab-control-fixed"  v-else :titles="title" @tabClick='tabClick'></tab-control>
+			<tab-control class="tab-control bgc" v-if="activeTab" :titles="title" @tab-click='tabClick' ref='tab'></tab-control>
+			<tab-control class="tab-control-fixed" v-else :titles="title" @tab-click='tabClick'></tab-control>
 			<view :class="{'view_height':!activeTab}"></view>
 		</view>
-		<goods-list :goods="showGoods"></goods-list>
+		<goods-list ref='goods'></goods-list>
 	</view>
 </template>
 
@@ -25,9 +25,11 @@
 	export default {
 		onShow() {
 			this.getSwiper()
-			this.getHomeGoods('pop',1)
-			this.getHomeGoods('new',1)
-			this.getHomeGoods('sell',1)
+			this.getHomeGoods('sell', 1)
+			setTimeout(() => {
+				this.getHomeGoods('pop', 1)
+			}, 50)
+			this.getHomeGoods('new', 1)
 			// console.log(this.getHomeGoods('new',1))
 		},
 		data() {
@@ -38,22 +40,22 @@
 					'pop': {
 						page: 1,
 						list: {
-							left:[],
-							right:[]
+							left: [],
+							right: []
 						}
 					},
 					'new': {
 						page: 1,
-						list:  {
-							left:[],
-							right:[]
+						list: {
+							left: [],
+							right: []
 						}
 					},
 					'sell': {
 						page: 1,
 						list: {
-							left:[],
-							right:[]
+							left: [],
+							right: []
 						}
 					},
 				},
@@ -61,9 +63,6 @@
 				currentType: 'pop',
 				activeTab: true,
 			}
-		},
-		onReady() {
-			this.getHomeGoods(this.currentType, this.goods[this.currentType].page)
 		},
 		methods: {
 			// 网络请求
@@ -77,6 +76,7 @@
 				this.recommend = res.data.recommend.list
 			},
 			async getHomeGoods(type, page) {
+				console.log(type)
 				const {
 					data: res
 				} = await this.$http({
@@ -89,41 +89,39 @@
 				let list = res.data.list
 				let left = []
 				let right = []
-				list.forEach((item,index) => {
-				    if(index %2 !==0){
-				        left.push(item)
-				    }else{
-				        right.push(item)
+				list.forEach((item, index) => {
+					if (index % 2 !== 0) {
+						left.push(item)
+					} else {
+						right.push(item)
 					}
 				})
-				this.goods[this.currentType].list.left.push(...left)
-				this.goods[this.currentType].list.right.push(...right)
+				this.goods[type].list.left.push(...left)
+				this.goods[type].list.right.push(...right)
 				this.title = [res.data.filter.list[0].title, res.data.filter.list[1].title, res.data.filter.list[2].title]
+				this.$refs.goods.init(this.goods[type].list)
 			},
 
 			// 方法
 			tabClick(index) {
-				let top
-				this.currentIndex = index
 				uni.pageScrollTo({
 					duration: 100, //过渡时间
 					scrollTop: 626, //到达距离顶部的top值
 				})
-				console.log(top)
 				switch (index) {
 					case 0:
 						this.currentType = 'pop'
-						return
+						break
 					case 1:
 						this.currentType = 'new'
-						return
+						break
 					case 2:
 						this.currentType = 'sell'
-						return
+						break
 				}
-
+				this.getHomeGoods(this.currentType, 1)
 			},
-			
+
 			onPageScroll(res) {
 				let tabControl = res.scrollTop
 				// console.log(tabControl)
@@ -162,7 +160,7 @@
 			SRC() {
 				return '../../static/img/home/recommend_bg.png'
 			}
-		}
+		},
 	}
 </script>
 
@@ -209,7 +207,8 @@
 		height: 80rpx;
 		width: 375rpx;
 	}
-	.bgc{
+
+	.bgc {
 		background-color: #fff;
 		position: relative;
 		top: -3px;

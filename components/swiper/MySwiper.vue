@@ -76,7 +76,7 @@
 	/* #ifdef MP */
 	.mp-search-box{
 		position: absolute;
-		left: -6%;
+		left: 6%;
 		top: 10upx;
 		z-index: 9999;
 		width: 90%;
