@@ -28,6 +28,10 @@ $uni-text-color-grey:#999;//辅助灰色，如加载更多的提示信息
 $uni-text-color-placeholder: #808080;
 $uni-text-color-disable:#c0c0c0;
 $font-color-base:#9c9c9c;
+$font-color-dark: #303133;
+$font-color-light: #909399;
+$font-color-disabled: #C0C4CC;
+$font-color-spec: #4399fc;
 /* 背景颜色 */
 $uni-bg-color:#ff699c;
 $uni-bg-color-grey:#f8f8f8;
@@ -40,9 +44,9 @@ $uni-border-color:#e5e5e5;
 /* 尺寸变量 */
 
 /* 文字尺寸 */
-$uni-font-size-sm:24rpx;
-$uni-font-size-base:28rpx;
-$uni-font-size-lg:32rpx;
+$font-sm: 24upx;
+$font-base: 28upx;
+$font-lg: 32upx;
 
 /* 图片尺寸 */
 $uni-img-size-sm:40rpx;

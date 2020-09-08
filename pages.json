@@ -68,7 +68,9 @@
 		}
         ,{
             "path" : "pages/payment/payment",
-            "style" : {}
+            "style" : {
+				"navigationBarTitleText": "订单"
+			}
         }
     ],
 	"globalStyle": {

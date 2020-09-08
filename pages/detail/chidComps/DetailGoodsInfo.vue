@@ -9,7 +9,7 @@
     <view class="info-key">{{detailInfo.detailImage[0].key}}</view>
     <view class="info-list">
       <img v-for="(item, index) in detailInfo.detailImage[0].list" 
-      :key="index" :src="item" alt="" @load="imageLoad(item)">
+      :key="index" :src="item" alt="" @load="imageLoad">
     </view>
   </view>
 </template>
@@ -27,17 +27,17 @@
       return{
         counter:0,
         imageLength:0,
-		load:false
+		load:true
       }
     },
+	mounted() {
+		this.imageLoad = debounce(this.imageLoad,50)
+	},
     methods:{
       imageLoad(){
-				if(!this.load){
-					setTimeout(()=>{
-						this.$emit('imageLoad',this.load)
-					},1000)
-				 this.load = true
-				 }
+		  // setTimeout(()=>{
+			  this.$emit('imageLoad',this.load)
+		  // },1000)
       }
     },
     watch:{

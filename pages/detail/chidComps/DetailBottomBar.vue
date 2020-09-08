@@ -14,9 +14,9 @@
         <span class="text">收藏</span>
       </view>
     </view>
-    <view class="bar-item bar-right" @click="addCarClick">
-      <view class="cart">加入购物车</view>
-      <view class="buy">购买</view>
+    <view class="bar-item bar-right">
+      <view class="cart"  @click="addCarClick">加入购物车</view>
+      <view class="buy" @click="clickBuy">购买</view>
     </view>
   </view>
 </template>
@@ -27,7 +27,10 @@ export default {
   methods:{
     addCarClick(){
       this.$emit('addCar')
-    }
+    },
+	clickBuy(){
+		this.$emit('click-buy')
+	}
   }
 }
 </script>

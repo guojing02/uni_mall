@@ -23,7 +23,7 @@
 	import RecommendView from './children/RecommendView.vue'
 	import tabControl from './children/tabControl.vue'
 	export default {
-		onShow() {
+		onLoad() {
 			this.getSwiper()
 			this.getHomeGoods('sell', 1)
 			setTimeout(() => {
@@ -76,10 +76,7 @@
 				this.recommend = res.data.recommend.list
 			},
 			async getHomeGoods(type, page) {
-				console.log(type)
-				const {
-					data: res
-				} = await this.$http({
+				const {data: res} = await this.$http({
 					url: '/home/data',
 					data: {
 						type,
@@ -99,7 +96,7 @@
 				this.goods[type].list.left.push(...left)
 				this.goods[type].list.right.push(...right)
 				this.title = [res.data.filter.list[0].title, res.data.filter.list[1].title, res.data.filter.list[2].title]
-				this.$refs.goods.init(this.goods[type].list)
+					this.$refs.goods.init(type,this.goods[type].list)
 			},
 
 			// 方法
@@ -131,7 +128,7 @@
 				}
 				// #endif 
 				// #ifdef MP
-				if (tabControl >= 586) {
+				if (tabControl >= 614) {
 					this.activeTab = false
 				}
 				// #endif 
@@ -154,7 +151,7 @@
 		},
 		computed: {
 			showGoods() {
-				console.log(this.goods[this.currentType].list)
+				// console.log(this.goods[this.currentType].list)
 				return this.goods[this.currentType].list
 			},
 			SRC() {

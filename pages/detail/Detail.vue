@@ -1,6 +1,13 @@
 <template>
 	<view id="detail">
-		<detail-nav-bar :class="[active?'detail-nav':'false-nav']" @itemClick='itemClick' ref="nav" />
+		<!-- <detail-nav-bar :class="[active?'detail-nav':'false-nav']" @itemClick='itemClick' ref="nav" />
+		 -->
+		<view class="titles" :class="[active?'detail-nav':'false-nav']">
+			<view v-for="(item,index) in titles" :key="index" class="title-item" @click="itemClick(index)">
+			{{item}}
+				<view :class="{actives:index === currentIndex}"></view>
+			</view>
+		</view>
 		<view>
 			<swiper :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000" class="imgHeight">
 				<swiper-item v-for="(item,index) in topImages" :key='index'>
@@ -14,7 +21,7 @@
 		<detail-param-info ref="param" class="param" :param-info='paramInfo'></detail-param-info>
 		<detail-comment-info ref="comment" class='comment' :commentInfo="commentInfo"></detail-comment-info>
 		<goods-list ref="recomment" class="recomment" />
-		<detail-bottom-bar @addCar='addCar' />
+		<detail-bottom-bar @addCar='addCar' @click-buy='clickBuy'/>
 	</view>
 </template>
 
@@ -63,24 +70,20 @@
 					}
 				},
 				themeTops: [],
-				currentIndex: null
+				currentIndex: 0,
+				titles: ['商品', '参数', '评论', '推荐'],
 			}
 		},
-		created() {
+		onLoad() {
 			this.getHomeGoods('new', 3)
-
 		},
 		mounted() {
 			// 图片加载完的事件监听
-			this.imageLoad()
-		},
-		destroyed() {
-
+			// this.imageLoad()
 		},
 		onLoad(options) {
 			this.getSwiper(options.id)
 			// console.log(options)
-			// console.log(options.id)
 		},
 
 		methods: {
@@ -103,6 +106,7 @@
 				this.shop = new Shop(data.shopInfo)
 				// 4.保存商品的详情数据
 				this.detailInfo = data.detailInfo
+				console.log(this.detailInfo)
 				// 5.获取参数的信息
 				this.paramInfo = new GoodsParam(data.itemParams.info, data.itemParams.rule)
 				if (data.rate.list) {
@@ -131,7 +135,7 @@
 				})
 				this.recommendList.new.list.left.push(...left)
 				this.recommendList.new.list.right.push(...right)
-				this.$refs.recomment.init(this.recommendList.new.list)
+				this.$refs.recomment.init(type, this.recommendList.new.list)
 			},
 
 
@@ -141,19 +145,16 @@
 					scrollTop: this.themeTops[i], //到达距离顶部的top值
 				})
 			},
-			imageLoad(load) {
+			imageLoad() {
 				// #ifdef H5
-				if (load) {
 					this.themeTops = [0,
 						this.$refs.param.$el.offsetTop,
 						this.$refs.comment.$el.offsetTop,
 						this.$refs.recomment.$el.offsetTop,
 						Number.MAX_VALUE
 					]
-				}
 				// #endif
 				//#ifdef MP
-				if (load) {
 					this.themeTops[0] = 0
 					uni.createSelectorQuery().select('.param').boundingClientRect((rect) => {
 						this.themeTops[1] = rect.top
@@ -165,8 +166,8 @@
 						this.themeTops[3] = rect.top
 					}).exec()
 					this.themeTops[4] = Number.MAX_VALUE
-				}
 				// #endif
+				// console.log(this.themeTops)
 			},
 			addCar() {
 				const cart = {}
@@ -182,6 +183,24 @@
 					})
 				})
 			},
+			clickBuy(){	
+				let commodity = [
+					{
+						logo:this.shop.logo,
+						name:this.shop.name,
+						image:this.topImages[0],
+						title:this.goods.title,
+						price:this.goods.realPrice,
+						id:this.iid,
+						number:1,
+						satisfy:2
+					}
+				]
+				commodity = JSON.stringify(commodity)
+				uni.navigateTo({
+					url:`/pages/payment/payment?data=${commodity}`,
+				})
+			},
 			onPageScroll(res) {
 				// console.log(res.scrollTop)
 				let top = res.scrollTop
@@ -195,7 +214,6 @@
 						(top >= this.themeTops[i] - 4 &&
 							top < this.themeTops[i + 1])) {
 						this.currentIndex = i
-						this.$refs.nav.currentIndex = this.currentIndex
 					}
 				}
 			}
@@ -224,7 +242,21 @@
 	}
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+	.titles {
+		display: flex;
+
+		.title-item {
+			margin: auto;
+			color: #fff;
+		}
+	}
+
+	.actives {
+		height: 2px;
+		background: #fff;
+	}
+
 	#detail {
 		position: relative;
 		background-color: #fff;
@@ -246,7 +278,7 @@
 		position: fixed;
 		z-index: 11;
 		height: 80upx;
-		width: 766upx;
+		width: 102%;
 		background: -webkit-linear-gradient(right, #949494 0%, #b350cc 100%);
 		background: -webkit-linear-gradient(rgb(255, 105, 156), rgba(255, 176, 255, 0.2));
 		background: linear-gradient(rgb(255, 105, 156), rgba(255, 0, 255, 0.2));
@@ -258,7 +290,6 @@
 	}
 
 	.false-nav {
-		position: absolute;
-		z-index: -20;
+		display: none;
 	}
 </style>
